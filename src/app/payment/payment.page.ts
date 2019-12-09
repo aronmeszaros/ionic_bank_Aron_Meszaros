@@ -143,6 +143,8 @@ export class PaymentPage implements OnInit {
         alert("Barcode data " + JSON.stringify(barcodeData));
         this.scannedData = barcodeData;
         this.benefitiaryData = JSON.parse(this.scannedData["text"]);
+        this.newTransaction.merchant = this.benefitiaryData.benefitiaryName;
+        this.newTransaction.phone = this.benefitiaryData.accountNumber;
       })
       .catch(err => {
         console.log("Error", err);
