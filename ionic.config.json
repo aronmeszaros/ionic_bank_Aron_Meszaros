@@ -1,5 +1,7 @@
 {
   "name": "ionic_bank_Aron_Meszaros",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

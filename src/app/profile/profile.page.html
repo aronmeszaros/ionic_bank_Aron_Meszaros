@@ -1,0 +1,42 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>
+        Profile
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+      <ion-card *ngIf="user">
+        <ion-card-header>
+          <ion-card-title>
+            <div class="portrait">
+                <img class="photo" src="https://image.flaticon.com/icons/png/512/149/149071.png"/>
+            </div>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content class="clientData">
+          <ion-text> <i class="fa fa-address-card-o"></i> <b>{{user.first_name}} {{user.last_name}}</b></ion-text>
+          <br/>
+          <ion-text> <i class="fa fa-location-arrow"></i> {{user.phone}}</ion-text>
+          <br/>
+          <div>
+                <ion-text> <i class="fa fa-credit-card"></i>{{user.country}}</ion-text>
+                <br/>
+                <ion-text> <i class="fa fa-mobile"></i> {{user.city}}</ion-text>
+                <br/>
+                <ion-text> <i class="fa fa-mobile"></i> {{user.address}}</ion-text>
+                <br>
+                <ion-text>Postal code:  {{user.psc}}</ion-text>
+                <br>
+                <ion-text>Account Balance:  {{user.balance}}&euro;</ion-text>
+        </div>
+        <br/>
+        <ion-button routerLink="/edit-profile" color="primary"> <i class="fa fa-wrench"></i> &nbsp;Edit</ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ion-content>
+    

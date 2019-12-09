@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Edit your profile:</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="user">
+    <ion-item>
+        <ion-button (click)="goBack()">Go Back</ion-button>
+      </ion-item>
+    <ion-card>
+        <ion-item>
+            <ion-icon name="at" slot="start"></ion-icon>
+            <ion-label position="floating">Username:</ion-label>
+            <ion-input [(ngModel)]="user.username" type="text"></ion-input>
+        </ion-item>
+        <ion-item class="activated">
+          <ion-icon name="person" slot="start"></ion-icon>
+          <ion-label position="floating">First name:</ion-label>
+          <ion-input [(ngModel)]="user.first_name" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-icon name="person" slot="start"></ion-icon>
+            <ion-label position="floating">Last name:</ion-label>
+            <ion-input [(ngModel)]="user.last_name" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-icon name="call" slot="start"></ion-icon>
+            <ion-label position="floating">Phone:</ion-label>
+            <ion-input [(ngModel)]="user.phone" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-icon name="pin" slot="start"></ion-icon>
+            <ion-label position="floating">Address:</ion-label>
+            <ion-input [(ngModel)]="user.address" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-icon name="pin" slot="start"></ion-icon>
+            <ion-label position="floating">Postal code:</ion-label>
+            <ion-input [(ngModel)]="user.psc" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-icon name="pin" slot="start"></ion-icon>
+            <ion-label position="floating">City:</ion-label>
+            <ion-input [(ngModel)]="user.city" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-icon name="globe" slot="start"></ion-icon>
+            <ion-label position="floating">Country:</ion-label>
+            <ion-input [(ngModel)]="user.country" type="text"></ion-input>
+        </ion-item>
+        <ion-button (click)="update()" color="primary"><i class="fa fa-save"></i>&nbsp;Update</ion-button>
+      </ion-card>
+</ion-content>

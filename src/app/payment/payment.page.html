@@ -1,0 +1,73 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>
+        Payment
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content>
+  <ion-card>
+      <form #form="ngForm" (ngSubmit)="transfer(form)" novalidate>
+          <ion-item>
+            <ion-icon name="person" slot="start"></ion-icon>
+            <ion-label>Benefitiary Name</ion-label>
+            <ion-input type="text" [(ngModel)]="newTransaction.merchant" name="merchant" ngControl="merchant"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="call" slot="start"></ion-icon>
+            <ion-label>Phone</ion-label>
+            <ion-input type="text" [(ngModel)]="newTransaction.phone" name="phone" ngControl="phone"></ion-input>
+          </ion-item>
+          <ion-item>
+              <ion-icon name="cash" slot="start"></ion-icon>
+              <ion-label>Amount</ion-label>
+              <ion-input required type="number" [(ngModel)]="newTransaction.amount" name="amount" ngControl="amount"></ion-input>
+          </ion-item>
+          <ion-item>
+              <ion-icon name="pricetag" slot="start"></ion-icon>
+              <ion-label>Category</ion-label>
+              <ion-input type="text" [(ngModel)]="newTransaction.category" name="category" ngControl="category"></ion-input>
+          </ion-item>
+          <ion-button ion-button type="submit" expand="block" shape="round" fill="outline" color="primary" size="default">Transfer</ion-button>
+        </form>
+  </ion-card>
+  <hr>
+  <br>
+  <ion-card>
+    <div *ngIf="showScan == true">
+      <ion-item>
+          <h1>Click Button To Scan</h1>
+      </ion-item>
+      <ion-item>
+          <ion-button color="success" (click)="scanCode()">
+              Scan Code
+            </ion-button>
+      </ion-item>
+      <ion-item>
+          <div *ngIf="scannedData">
+              <p>
+                Scanned Code Text : <b>{{ scannedData["text"] }}</b>
+              </p>
+              <p>
+                Scanned Code Format : <b>{{ scannedData["format"] }}</b>
+              </p>
+          </div>
+      </ion-item>
+    </div>
+    <ion-item>
+      <h4>Scan the code to transfer to this account</h4>
+    </ion-item>
+    <ion-item style="text-align: center; padding-bottom: 20%">
+      <ngx-qrcode 
+        [qrc-element-type]="elementType" 
+        [qrc-value] = "qrData"
+        qrc-class = "aclass"
+        qrc-errorCorrectionLevel = "L" style="margin: auto; width: 80%; max-width: 200px;">
+      </ngx-qrcode>
+    </ion-item>
+  </ion-card>
+</ion-content>

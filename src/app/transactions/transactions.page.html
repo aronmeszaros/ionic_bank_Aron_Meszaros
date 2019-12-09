@@ -1,0 +1,22 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>
+        Transactions
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content>
+  <!-- List of Text Items -->
+  <ion-card>
+      <ion-item routerLink="/transaction-detail/{{transaction.id}}" class="activated" *ngFor="let transaction of transactions" [color]="transaction.payment === 'sent' ? 'danger' : 'success'">
+        <ion-icon name="pricetag" slot="start"></ion-icon>
+        <ion-label slot="start" style="font-size: 1.5rem; margin-right: 10%;">{{transaction.merchant}}</ion-label>
+        <ion-label slot="end" align-self-end style="font-size: 1.5rem; margin-right: 10%;">{{transaction.amount}} &euro;</ion-label>
+      </ion-item>
+    </ion-card>
+      <a class="btn btn-dark" (click)="goBack()" style="color: white;">Go back</a>
+</ion-content>

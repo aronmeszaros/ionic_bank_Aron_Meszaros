@@ -1,0 +1,31 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>
+        Dashboard
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+      <ion-grid>
+        <ion-row *ngIf="user">
+          <ion-col>
+            <ion-card>
+              <ion-item>
+                  <h4>Account balance: <b>{{user.balance}}</b> &euro;</h4>
+              </ion-item>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <div style="text-align: center; width: 100%; height: 40vw; min-height: 300px;">
+              <div id="pie-chart" style="width: 100%; height: 100%; margin:auto;"></div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+  </ion-content>
