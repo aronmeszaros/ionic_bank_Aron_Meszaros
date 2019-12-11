@@ -8,38 +8,38 @@
   <ion-item>
     <ion-button (click)="goBack()">Go Back</ion-button>
   </ion-item>
-  <ion-grid *ngIf="transaction">
+  <ion-grid *ngIf="transactionStorage">
     <ion-row>
       <ion-col>Merchant:</ion-col>
-      <ion-col>{{transaction.merchant}}</ion-col>
+      <ion-col>{{transactionStorage.merchant}}</ion-col>
     </ion-row>
     <ion-row>
         <ion-col>Account number:</ion-col>
-        <ion-col>{{transaction.iban}}</ion-col>
+        <ion-col>{{transactionStorage.iban}}</ion-col>
       </ion-row>
     <ion-row>
       <ion-col>Payment:</ion-col>
-      <ion-col>{{transaction.payment}}</ion-col>
+      <ion-col>{{transactionStorage.payment}}</ion-col>
     </ion-row>
     <ion-row>
       <ion-col>Amount:</ion-col>
-      <ion-col>{{transaction.amount}} &euro;</ion-col>
+      <ion-col>{{transactionStorage.amount}} &euro;</ion-col>
     </ion-row>
     <ion-row>
       <ion-col>Category:</ion-col>
-      <ion-col>{{transaction.category}}</ion-col>
+      <ion-col>{{transactionStorage.category}}</ion-col>
     </ion-row>
     <ion-row>
       <ion-col>Type:</ion-col>
-      <ion-col>{{transaction.type}}</ion-col>
+      <ion-col>{{transactionStorage.type}}</ion-col>
     </ion-row>
   <ion-row>
     <ion-col>Date:</ion-col>
-    <ion-col>{{transaction.date}}</ion-col>
+    <ion-col>{{transactionStorage.date}}</ion-col>
   </ion-row>
   <ion-row>
     <ion-col>Note:</ion-col>
-    <ion-col>{{transaction.note}}</ion-col>
+    <ion-col>{{transactionStorage.note}}</ion-col>
   </ion-row>
 </ion-grid>
 </ion-content>

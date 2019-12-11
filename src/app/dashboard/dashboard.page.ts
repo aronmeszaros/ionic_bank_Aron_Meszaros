@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from '../Entities/user';
 import {UserService} from '../Services/user.service';
-import { ToastController } from '@ionic/angular';
+import { ToastController, Platform } from '@ionic/angular';
 import { MessageService } from '../Services/message.service';
 import { TransactionService } from '../Services/transaction.service';
 import { Transaction } from '../Entities/transaction';
 
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
+import { TransactionInterface, StorageServiceService } from '../Services/storage-service.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,19 +18,24 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 export class DashboardPage implements OnInit {
   private chart: am4charts.PieChart;
   transactions: Transaction[];
+  transactionsStorage: TransactionInterface[] = [];
   user: User;
   messages: string[] = [];
 
   constructor(
-    private transactionService: TransactionService, 
+    private transactionService: TransactionService,
+    private storageService: StorageServiceService, 
     public toastController: ToastController, 
     private messageService: MessageService, 
-    private userService: UserService) { }
+    private userService: UserService,
+    private plt: Platform) { 
+      this.plt.ready().then(() => {this.loadTransactionsStorage();})
+    }
 
   ngOnInit() {
     this.getUser();
     this.getTransactions();
-    this.loadChart();
+    
   }
   ionViewDidEnter() {
     this.loadMessages();
@@ -46,6 +52,13 @@ export class DashboardPage implements OnInit {
     const userId = 1;
     const req = this.transactionService.getTransactions(userId);
     req.subscribe(transactions => this.transactions = transactions);
+  }
+  //Load from Ionic Storage
+  loadTransactionsStorage(){
+    this.storageService.getAllTransactions().then(transactionsStorage => {
+      this.transactionsStorage = transactionsStorage;
+      this.loadChart();
+    });
   }
   async loadMessages() {
     //Display messages with toast
@@ -66,7 +79,7 @@ export class DashboardPage implements OnInit {
     let chart = am4core.create("pie-chart", am4charts.PieChart);
     let title = chart.titles.create();
     title.text = "Spending Report";
-    let stat = this.findCategoryOccurance(this.transactions);
+    let stat = this.findCategoryOccurance(this.transactionsStorage);
     let data = [];
     for(var i = 0; i < stat[1].length; i++ ){
       data.push({id: i, category: stat[0][i], count: stat[1][i]});

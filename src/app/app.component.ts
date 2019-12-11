@@ -56,7 +56,12 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+    this.storage.clear();
+    /*
     this.storage.set('name', 'Aron');
+    this.storage.get('name').then((val) => {
+    console.log('Your name is', val);
+    });*/
     this.messageService.addInfo('Welcome');
     this.messages = this.messageService.getInfo();
   }

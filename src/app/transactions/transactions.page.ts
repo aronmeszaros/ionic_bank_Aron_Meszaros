@@ -3,8 +3,9 @@ import {Transaction} from '../Entities/transaction';
 import {TransactionService} from '../Services/transaction.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { ToastController } from '@ionic/angular';
+import { ToastController, Platform } from '@ionic/angular';
 import { MessageService } from '../Services/message.service';
+import { StorageServiceService, TransactionInterface } from '../Services/storage-service.service';
 
 @Component({
   selector: 'app-transactions',
@@ -13,8 +14,11 @@ import { MessageService } from '../Services/message.service';
 })
 export class TransactionsPage implements OnInit {
   transactions: Transaction[];
+  transactionsStorage: TransactionInterface[] = [];
   messages: string[] = [];
-  constructor(public toastController: ToastController, private messageService: MessageService, private transactionService: TransactionService, private route: ActivatedRoute, private location: Location) { }
+  constructor(private storageService: StorageServiceService, public toastController: ToastController, private messageService: MessageService, private transactionService: TransactionService, private route: ActivatedRoute, private location: Location, private plt: Platform) { 
+    this.plt.ready().then(() => {this.loadTransactionsStorage();})
+  }
 
   ngOnInit() {
     this.getTransactions();
@@ -30,7 +34,12 @@ export class TransactionsPage implements OnInit {
     this.transactionService.getTransactions(userId)
       .subscribe(transactions => this.transactions = transactions);
   }
-  
+  //Load from Ionic Storage
+  loadTransactionsStorage(){
+    this.storageService.getAllTransactions().then(transactionsStorage => {
+      this.transactionsStorage = transactionsStorage;
+    });
+  }
   goBack(): void {
     //console.log(this.transactions);
     this.location.back();

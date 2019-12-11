@@ -9,6 +9,7 @@ import { MessageService } from '../Services/message.service';
 import { ToastController } from '@ionic/angular';
 import {BarcodeScannerOptions,BarcodeScanner} from "@ionic-native/barcode-scanner/ngx";
 import { Platform } from '@ionic/angular';
+import { StorageServiceService, TransactionInterface } from '../Services/storage-service.service';
 
 @Component({
   selector: 'app-payment',
@@ -17,6 +18,7 @@ import { Platform } from '@ionic/angular';
 })
 export class PaymentPage implements OnInit {
   transactions: Transaction[];
+  transactionsStorage: TransactionInterface[] = [];
   messages: string[] = [];
   @Input() user: User;
   users: User[];
@@ -35,7 +37,8 @@ export class PaymentPage implements OnInit {
   constructor(
     public toastController: ToastController, 
     private messageService: MessageService, 
-    private transactionService: TransactionService, 
+    private transactionService: TransactionService,
+    private storageService: StorageServiceService, 
     private route: ActivatedRoute, 
     private userService: UserService, 
     private location: Location, 
@@ -48,6 +51,7 @@ export class PaymentPage implements OnInit {
       showTorchButton: true,
       showFlipCameraButton: true
     };
+    this.platform.ready().then(() => {this.loadTransactionsStorage();})
    }
 
   ngOnInit() {
@@ -75,7 +79,12 @@ export class PaymentPage implements OnInit {
     this.transactionService.getTransactions(userId)
       .subscribe(transactions => this.transactions = transactions);
   }
-
+  //Load from Ionic Storage
+  loadTransactionsStorage(){
+    this.storageService.getAllTransactions().then(transactionsStorage => {
+      this.transactionsStorage = transactionsStorage;
+    });
+  }
   transfer(form): void {
     let merchant = this.newTransaction.merchant;
     let phone = this.newTransaction.phone;
@@ -91,8 +100,13 @@ export class PaymentPage implements OnInit {
     if(phone.length>0){if(!this.phonenumber(phone)){return;}}else if(merchant.length>0){}else{this.messageService.addInfo("Specify sender"); this.loadMessages(3000);return;};
     //create transaction
     let newTransaction = new Transaction;
+    let newTransactionIterface: TransactionInterface = {id: null, userId: this.user.id, merchant: merchant, iban: phone, payment: 'sent', amount: amount, category: category, type: 'e-banking', date: Date.now(), note: 'from portal'};
     newTransaction = {id: null, userId: this.user.id, merchant: merchant, iban: phone, payment: 'sent', amount: amount, category: category, type: 'e-banking', date: new Date("2019-10-20"), note: 'from portal'}
     this.transactionService.addTransaction(newTransaction).subscribe(transaction => {this.transactions.push(transaction)});
+    this.storageService.addTransaction(newTransactionIterface).then(transaction =>{
+      newTransactionIterface = <TransactionInterface>{};
+      this.loadTransactionsStorage();
+    })
     this.getTransactions();
     //subtract the amount from this user
     this.user.balance = this.user.balance - amount;
