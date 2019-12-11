@@ -56,7 +56,7 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
-    this.storage.clear();
+    //this.storage.clear();
     /*
     this.storage.set('name', 'Aron');
     this.storage.get('name').then((val) => {
