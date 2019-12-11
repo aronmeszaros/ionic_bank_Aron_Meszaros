@@ -40,7 +40,6 @@ export class StorageServiceService {
   
   //ADD
   addTransaction(transaction: TransactionInterface): Promise<any>{
-    debugger
     return this.getAllTransactions().then((member)=>{
       this.newID = member.length;
       transaction.id = this.newID +1;

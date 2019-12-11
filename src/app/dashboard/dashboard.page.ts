@@ -39,6 +39,7 @@ export class DashboardPage implements OnInit {
   }
   ionViewDidEnter() {
     this.loadMessages();
+    this.loadTransactionsStorage();
   }
 
   getUser(): void {
