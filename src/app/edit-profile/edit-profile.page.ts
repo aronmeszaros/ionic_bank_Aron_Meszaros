@@ -1,12 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-  keyframes
-} from '@angular/animations';
 import {User} from '../Entities/user';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -18,27 +10,11 @@ import { MessageService } from '../Services/message.service';
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.page.html',
-  styleUrls: ['./edit-profile.page.scss'],
-  animations: [
-    trigger('appear',[
-      state('*', style({
-        transform: 'translateX(100%)',
-        opacity:0,
-      })),
-      state('pageLoaded', style({
-        transform: 'translateX(0%)',
-        opacity:1,
-      })),
-      transition('* => pageLoaded', [
-        animate('1s ease-out')
-      ])
-    ])
-  ]
+  styleUrls: ['./edit-profile.page.scss']
 })
 export class EditProfilePage implements OnInit {
   @Input() user: User;
   messages: string[] = [];
-  isPageLoaded = false;
 
   constructor(public toastController: ToastController, private messageService: MessageService, private userService: UserService, private route: ActivatedRoute, private location: Location, private router: Router) { }
 
@@ -46,7 +22,7 @@ export class EditProfilePage implements OnInit {
     this.getUser();
   }
   ionViewDidEnter(){
-    this.isPageLoaded = true;
+    ;
   }
   getUser(): void {
     //const id = +this.route.snapshot.paramMap.get('id');

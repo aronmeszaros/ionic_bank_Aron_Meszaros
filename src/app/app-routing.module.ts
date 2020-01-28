@@ -20,10 +20,6 @@ const routes: Routes = [
     loadChildren: () => import('./transactions/transactions.module').then( m => m.TransactionsPageModule)
   },
   {
-    path: 'switch-user',
-    loadChildren: () => import('./switch-user/switch-user.module').then( m => m.SwitchUserPageModule)
-  },
-  {
     path: 'transaction-detail/:id',
     loadChildren: () => import('./transaction-detail/transaction-detail.module').then( m => m.TransactionDetailPageModule)
   },

@@ -17,7 +17,6 @@ import { Location } from '@angular/common';
 import { ToastController, Platform } from '@ionic/angular';
 import { MessageService } from '../Services/message.service';
 import { StorageServiceService, TransactionInterface } from '../Services/storage-service.service';
-import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-transactions',
@@ -48,16 +47,17 @@ export class TransactionsPage implements OnInit {
   merchants = [];
 
   constructor(private storageService: StorageServiceService, public toastController: ToastController, private messageService: MessageService, private transactionService: TransactionService, private route: ActivatedRoute, private location: Location, private plt: Platform) { 
-    this.plt.ready().then(() => {this.loadTransactionsStorage();})
+    this.plt.ready().then(() => {})
   }
 
   ngOnInit() {
     this.showItems();
-    this.loadMerchants();
+    
   }
 
   ngAfterViewInit(){
     console.log(this.transactionTotal);
+    this.loadMerchants();
   }
 
   ionViewDidEnter() {
