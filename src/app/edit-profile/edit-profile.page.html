@@ -8,7 +8,7 @@
     <ion-item>
         <ion-button (click)="goBack()">Go Back</ion-button>
       </ion-item>
-    <ion-card>
+    <ion-card [@appear]="isPageLoaded ? 'pageLoaded' : 'pageNotLoaded'">
         <ion-item>
             <ion-icon name="at" slot="start"></ion-icon>
             <ion-label position="floating">Username:</ion-label>

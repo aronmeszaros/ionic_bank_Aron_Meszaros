@@ -13,7 +13,7 @@
       <ion-grid>
         <ion-row *ngIf="user">
           <ion-col>
-            <ion-card>
+            <ion-card [@appear]="isPageLoaded ? 'pageLoaded' : 'pageNotLoaded'">
               <ion-item>
                   <h4>Account balance: <b>{{user.balance}}</b> &euro;</h4>
               </ion-item>

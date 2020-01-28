@@ -1,4 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+  keyframes
+} from '@angular/animations';
 import {User} from '../Entities/user';
 import {UserService} from '../Services/user.service';
 import { ToastController, Platform } from '@ionic/angular';
@@ -14,6 +22,21 @@ import { TransactionInterface, StorageServiceService } from '../Services/storage
   selector: 'app-dashboard',
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
+  animations: [
+    trigger('appear',[
+      state('*', style({
+        transform: 'translateY(10px)',
+        opacity:0,
+      })),
+      state('pageLoaded', style({
+        transform: 'translateY(0px)',
+        opacity:1,
+      })),
+      transition('* => pageLoaded', [
+        animate('1s ease-out')
+      ])
+    ])
+  ]
 })
 export class DashboardPage implements OnInit {
   private chart: am4charts.PieChart;
@@ -21,6 +44,7 @@ export class DashboardPage implements OnInit {
   transactionsStorage: TransactionInterface[] = [];
   user: User;
   messages: string[] = [];
+  isPageLoaded = false;
 
   constructor(
     private transactionService: TransactionService,
@@ -40,6 +64,7 @@ export class DashboardPage implements OnInit {
   ionViewDidEnter() {
     this.loadMessages();
     this.loadTransactionsStorage();
+    this.isPageLoaded = true;
   }
 
   getUser(): void {

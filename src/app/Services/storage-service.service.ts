@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Transaction } from '../Entities/transaction';
+import { number } from '@amcharts/amcharts4/core';
 
 export interface TransactionInterface{
   id: number, 
@@ -70,4 +71,11 @@ export class StorageServiceService {
       }
     });
   }
+  //Count
+  countTransactions(){
+    let transactionsCount: number;
+    transactionsCount =  this.transaction.length;
+    return transactionsCount;
+  }
+
 }

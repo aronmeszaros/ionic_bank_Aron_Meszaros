@@ -1,4 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+  keyframes
+} from '@angular/animations';
 import { TransactionService } from '../Services/transaction.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -15,6 +23,34 @@ import { StorageServiceService, TransactionInterface } from '../Services/storage
   selector: 'app-payment',
   templateUrl: './payment.page.html',
   styleUrls: ['./payment.page.scss'],
+  animations: [
+    trigger('appear',[
+      state('*', style({
+        transform: 'translateY(30px)',
+        opacity:0
+      })),
+      state('pageLoaded', style({
+        transform: 'translateY(0px)',
+        opacity:1
+      })),
+      transition('* => pageLoaded', [
+        animate('0.5s ease-out')
+      ])
+    ]),
+    trigger('appear2',[
+      state('*', style({
+        transform: 'translateY(30px)',
+        opacity:0
+      })),
+      state('pageLoaded', style({
+        transform: 'translateY(0px)',
+        opacity:1
+      })),
+      transition('* => pageLoaded', [
+        animate('2s ease-out')
+      ])
+    ])
+  ]
 })
 export class PaymentPage implements OnInit {
   transactions: Transaction[];
@@ -32,6 +68,7 @@ export class PaymentPage implements OnInit {
   showScan = this.platform.is('cordova');
   benefitiaryData: any;
   newTransaction = {merchant: '', phone: '', amount: 0, category: ''};
+  isPageLoaded = false;
 
 
   constructor(
@@ -61,6 +98,9 @@ export class PaymentPage implements OnInit {
   }
   ionViewWillEnter(){
     this.loadMessages(3000);
+  }
+  ionViewDidEnter(){
+    this.isPageLoaded = true;
   }
 
   getUser(): void {
@@ -157,6 +197,8 @@ export class PaymentPage implements OnInit {
         alert("Barcode data " + JSON.stringify(barcodeData));
         this.scannedData = barcodeData;
         this.benefitiaryData = JSON.parse(this.scannedData["text"]);
+        this.newTransaction.merchant = this.benefitiaryData.benefitiaryName;
+        this.newTransaction.phone = this.benefitiaryData.accountNumber;
       })
       .catch(err => {
         console.log("Error", err);

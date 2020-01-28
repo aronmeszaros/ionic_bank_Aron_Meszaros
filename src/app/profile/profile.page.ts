@@ -1,4 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+  keyframes
+} from '@angular/animations';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
@@ -11,11 +19,27 @@ import { MessageService } from '../Services/message.service';
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
+  animations: [
+    trigger('appear',[
+      state('*', style({
+        transform: 'translateY(30px)',
+        opacity:0
+      })),
+      state('pageLoaded', style({
+        transform: 'translateY(0px)',
+        opacity:1
+      })),
+      transition('* => pageLoaded', [
+        animate('1s ease-out')
+      ])
+    ])
+  ]
 })
 export class ProfilePage implements OnInit {
 
   user: User;
   messages: string[] = [];
+  isPageLoaded = false;
 
   constructor(public toastController: ToastController, private messageService: MessageService, private route: ActivatedRoute, private userService: UserService, private location: Location) { }
 
@@ -26,6 +50,7 @@ export class ProfilePage implements OnInit {
   ionViewDidEnter() {
     this.getUser();
     this.loadMessages();
+    this.isPageLoaded = true;
   }
 
   getUser(): void {

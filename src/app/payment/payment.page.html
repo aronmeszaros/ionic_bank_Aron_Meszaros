@@ -10,7 +10,7 @@
   </ion-header>
 
 <ion-content>
-  <ion-card>
+  <ion-card [@appear]="isPageLoaded ? 'pageLoaded' : 'pageNotLoaded'">
       <form #form="ngForm" (ngSubmit)="transfer(form)" novalidate>
           <ion-item>
             <ion-icon name="person" slot="start"></ion-icon>
@@ -37,7 +37,7 @@
   </ion-card>
   <hr>
   <br>
-  <ion-card>
+  <ion-card [@appear2]="isPageLoaded ? 'pageLoaded' : 'pageNotLoaded'">
     <div *ngIf="showScan == true">
       <ion-item>
           <h1>Click Button To Scan</h1>

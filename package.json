@@ -15,6 +15,7 @@
   "dependencies": {
     "@amcharts/amcharts4": "^4.7.11",
     "@amcharts/amcharts4-geodata": "^4.1.9",
+    "@angular/animations": "^8.1.2",
     "@angular/common": "~8.1.2",
     "@angular/core": "~8.1.2",
     "@angular/forms": "~8.1.2",
