@@ -1,12 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-  keyframes
-} from '@angular/animations';
+import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {User} from '../Entities/user';
 import {UserService} from '../Services/user.service';
 import { ToastController, Platform } from '@ionic/angular';
@@ -18,27 +10,17 @@ import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import { TransactionInterface, StorageServiceService } from '../Services/storage-service.service';
 
+//Animations
+import {AnimationController} from "@ionic/angular";
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.page.html',
-  styleUrls: ['./dashboard.page.scss'],
-  animations: [
-    trigger('appear',[
-      state('*', style({
-        transform: 'translateY(10px)',
-        opacity:0,
-      })),
-      state('pageLoaded', style({
-        transform: 'translateY(0px)',
-        opacity:1,
-      })),
-      transition('* => pageLoaded', [
-        animate('1s ease-out')
-      ])
-    ])
-  ]
+  styleUrls: ['./dashboard.page.scss']
 })
 export class DashboardPage implements OnInit {
+  @ViewChild("animate", {read: ElementRef, static: true}) animate: ElementRef;
+
   private chart: am4charts.PieChart;
   transactions: Transaction[];
   transactionsStorage: TransactionInterface[] = [];
@@ -52,6 +34,7 @@ export class DashboardPage implements OnInit {
     public toastController: ToastController, 
     private messageService: MessageService, 
     private userService: UserService,
+    private animationCtr: AnimationController,
     private plt: Platform) { 
       this.plt.ready().then(() => {this.loadTransactionsStorage();})
     }
@@ -59,7 +42,16 @@ export class DashboardPage implements OnInit {
   ngOnInit() {
     this.getUser();
     this.getTransactions();
-    
+  }
+  ngAfterViewInit(){
+    const animation = this.animationCtr
+    .create()
+    .addElement(this.animate.nativeElement)
+    .duration(1500)
+    .fromTo("transform", "translateX(100%)", "translateX(0px)")
+    .fromTo("opacity", 0, 1);
+
+    animation.play();
   }
   ionViewDidEnter() {
     this.loadMessages();

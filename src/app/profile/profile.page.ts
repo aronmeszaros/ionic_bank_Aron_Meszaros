@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import {
   trigger,
   state,
@@ -14,6 +14,9 @@ import {User} from '../Entities/user';
 import {UserService} from '../Services/user.service';
 import { ToastController } from '@ionic/angular';
 import { MessageService } from '../Services/message.service';
+
+//Animations
+import {AnimationController} from "@ionic/angular";
 
 @Component({
   selector: 'app-profile',
@@ -36,12 +39,13 @@ import { MessageService } from '../Services/message.service';
   ]
 })
 export class ProfilePage implements OnInit {
+  @ViewChild("animate", {read: ElementRef, static: true}) animate: ElementRef;
 
   user: User;
   messages: string[] = [];
   isPageLoaded = false;
 
-  constructor(public toastController: ToastController, private messageService: MessageService, private route: ActivatedRoute, private userService: UserService, private location: Location) { }
+  constructor(private animationCtr: AnimationController, public toastController: ToastController, private messageService: MessageService, private route: ActivatedRoute, private userService: UserService, private location: Location) { }
 
   ngOnInit() {
     this.getUser();
@@ -52,7 +56,16 @@ export class ProfilePage implements OnInit {
     this.loadMessages();
     this.isPageLoaded = true;
   }
+  ngAfterViewInit(){
+    const animation = this.animationCtr
+    .create()
+    .addElement(this.animate.nativeElement)
+    .duration(1500)
+    .fromTo("transform", "translateY(20%)", "translateY(0px)")
+    .fromTo("opacity", 0, 1);
 
+    animation.play();
+  }
   getUser(): void {
     //const id = +this.route.snapshot.paramMap.get('id');
     const id = 1;

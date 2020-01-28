@@ -9,8 +9,8 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content>
-      <ion-card *ngIf="user" [@appear]="isPageLoaded ? 'pageLoaded' : 'pageNotLoaded'">
+  <ion-content #animate>
+      <ion-card *ngIf="user">
         <ion-card-header>
           <ion-card-title>
             <div class="portrait">

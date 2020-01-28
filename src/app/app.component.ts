@@ -22,7 +22,7 @@ export class AppComponent {
     {
       title: 'Dashboard',
       url: '/dashboard',
-      icon: 'pie'
+      icon: 'desktop'
     },
     {
       title: 'Profile',

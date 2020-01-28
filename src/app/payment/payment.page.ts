@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import {
   trigger,
   state,
@@ -18,6 +18,9 @@ import { ToastController } from '@ionic/angular';
 import {BarcodeScannerOptions,BarcodeScanner} from "@ionic-native/barcode-scanner/ngx";
 import { Platform } from '@ionic/angular';
 import { StorageServiceService, TransactionInterface } from '../Services/storage-service.service';
+
+//Animations
+import {AnimationController} from "@ionic/angular";
 
 @Component({
   selector: 'app-payment',
@@ -53,6 +56,9 @@ import { StorageServiceService, TransactionInterface } from '../Services/storage
   ]
 })
 export class PaymentPage implements OnInit {
+  @ViewChild("animate", {read: ElementRef, static: true}) animate: ElementRef;
+  @ViewChild("animate2", {read: ElementRef, static: true}) animate2: ElementRef;
+  
   transactions: Transaction[];
   transactionsStorage: TransactionInterface[] = [];
   messages: string[] = [];
@@ -72,7 +78,8 @@ export class PaymentPage implements OnInit {
 
 
   constructor(
-    public toastController: ToastController, 
+    public toastController: ToastController,
+    private animationCtr: AnimationController, 
     private messageService: MessageService, 
     private transactionService: TransactionService,
     private storageService: StorageServiceService, 
@@ -102,7 +109,23 @@ export class PaymentPage implements OnInit {
   ionViewDidEnter(){
     this.isPageLoaded = true;
   }
+  ngAfterViewInit(){
+    const animation = this.animationCtr
+    .create()
+    .addElement(this.animate.nativeElement)
+    .duration(1500)
+    .fromTo("transform", "translateY(40%)", "translateY(0px)")
+    .fromTo("opacity", 0, 1);
+    const animation2 = this.animationCtr
+    .create()
+    .addElement(this.animate2.nativeElement)
+    .duration(1500)
+    .fromTo("transform", "translateY(40%)", "translateY(0px)")
+    .fromTo("opacity", 0, 1);
 
+    animation.play();
+    animation2.play();
+  }
   getUser(): void {
     //const id = +this.route.snapshot.paramMap.get('id');
     const id = 1;

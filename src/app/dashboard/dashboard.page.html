@@ -11,11 +11,11 @@
 
   <ion-content>
       <ion-grid>
-        <ion-row *ngIf="user">
+        <ion-row>
           <ion-col>
-            <ion-card [@appear]="isPageLoaded ? 'pageLoaded' : 'pageNotLoaded'">
+            <ion-card>
               <ion-item>
-                  <h4>Account balance: <b>{{user.balance}}</b> &euro;</h4>
+                  <h4 #animate>Account balance: <b *ngIf="user">{{user.balance}}</b> &euro;</h4>
               </ion-item>
             </ion-card>
           </ion-col>
