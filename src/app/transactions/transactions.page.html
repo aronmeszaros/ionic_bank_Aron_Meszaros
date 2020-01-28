@@ -9,18 +9,16 @@
     </ion-toolbar>
   </ion-header>
 
-<ion-content>
+<ion-content *ngIf="transactionsStorage.length != 0 && items.length != 0 && merchants != 0">
   <!-- List of Transaction Items -->
-  <ion-card>
-    <div [@stagger]>
-      <div [@fade] *ngFor="let transaction of transactionsStorage;">
-        <ion-item routerLink="/transaction-detail/{{transaction.id}}" class="activated transaction" [color]="transaction.payment === 'sent' ? 'danger' : 'success'">
+  <ion-card [@listAnimation]>
+        <ion-item id="list" *ngFor="let transaction of transactionsStorage;" routerLink="/transaction-detail/{{transaction.id}}" class="activated transaction" [color]="transaction.payment === 'sent' ? 'danger' : 'success'">
           <ion-icon name="pricetag" slot="start"></ion-icon>
           <ion-label slot="start" style="font-size: 1.5rem; margin-right: 10%;">{{transaction.merchant}}</ion-label>
           <ion-label slot="end" align-self-end style="font-size: 1.5rem; margin-right: 10%;">{{transaction.amount}} &euro;</ion-label>
         </ion-item>
-      </div>
-    </div>
   </ion-card>
       <a class="btn btn-dark" (click)="goBack()" style="color: white;">Go back</a>
 </ion-content>
+
+

@@ -24,14 +24,18 @@ import { delay } from 'rxjs/operators';
   templateUrl: './transactions.page.html',
   styleUrls: ['./transactions.page.scss'],
   animations: [
-      trigger('fade', [
-        transition(':enter', [style({opacity: 0}), animate('.6s ease')])
-      ]),
-      trigger('stagger', [
-        transition(':enter', [
-          query(':enter', stagger('.3s', [animateChild()]), {optional: true})
-        ])
+    trigger('listAnimation', [
+      transition('* => *', [
+
+        query(':enter', style({ opacity: 0 }), {optional: true}),
+
+        query(':enter', stagger('300ms', [
+          animate('1s ease-in', keyframes([
+            style({opacity: 0, transform: 'translateY(5%)'}),
+            style({opacity: 1, transform: 'translateY(0%)'}),
+          ]))]), {optional: true})
       ])
+    ])
     ]
 })
 export class TransactionsPage implements OnInit {
@@ -41,7 +45,7 @@ export class TransactionsPage implements OnInit {
   transactionTotal = 0;
   animate = true;
   items = [];
-  isPageLoaded = false;
+  merchants = [];
 
   constructor(private storageService: StorageServiceService, public toastController: ToastController, private messageService: MessageService, private transactionService: TransactionService, private route: ActivatedRoute, private location: Location, private plt: Platform) { 
     this.plt.ready().then(() => {this.loadTransactionsStorage();})
@@ -49,16 +53,15 @@ export class TransactionsPage implements OnInit {
 
   ngOnInit() {
     this.showItems();
+    this.loadMerchants();
   }
 
   ngAfterViewInit(){
     console.log(this.transactionTotal);
-    this.countTransactions();
   }
 
   ionViewDidEnter() {
     this.loadMessages();
-    this.isPageLoaded = true;
   }
 
   async waiting(){
@@ -68,6 +71,17 @@ export class TransactionsPage implements OnInit {
   loadTransactionsStorage(){
     this.storageService.getAllTransactions().then(transactionsStorage => {
       this.transactionsStorage = transactionsStorage;
+    });
+    this.transactionTotal = this.storageService.countTransactions();
+  }
+  loadMerchants(){
+    this.storageService.getAllTransactions().then(transactionsStorage => {
+      this.transactionsStorage = transactionsStorage;
+      let i = 0;
+      this.transactionsStorage.forEach(element => {
+        this.merchants[i] = element.merchant
+        i++
+      });
     });
     this.transactionTotal = this.storageService.countTransactions();
   }
@@ -103,7 +117,7 @@ export class TransactionsPage implements OnInit {
     this.loadTransactionsStorage();
   }
   showItems() {
-    this.items = [0,1,2,3,4];
+    this.items = [0,1,2,3,4,5,6,7,8,9,10];
   }
 
   hideItems() {
